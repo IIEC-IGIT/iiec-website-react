@@ -1,0 +1,59 @@
+.event-form {
+    display: flex;
+    flex-direction: column;
+    max-width: 500px;
+    margin:0 auto;
+  }
+  
+  .event-form div {
+    margin-bottom: 10px;
+  }
+  .innerbar {
+    background-color: blue; /* Replace "blue" with the desired color */
+  }
+  .event-form label[for="head"] {
+    font-weight: bold;
+    font-size: 40px;
+    color: darkorange;
+  }
+  
+  .event-form label {
+    font-weight: bold;
+    color: green;
+  }
+  
+  .event-form input[type='text'],
+  .event-form input[type='date'],
+  .event-form input[type='links']{
+    padding: 5px;
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    color: #000000;
+  }
+  .event-form input[type='file'] {
+    padding: 5px;
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    color: green;
+  }
+  .event-form button {
+    padding: 10px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .event-form button:hover {
+    background-color: #45a049;
+  }
+  .custom-select {
+    color: black; /* Default text color */
+  }
+
+  .custom-select option:checked {
+    color: red; /* Color of the selected option */
+  }
