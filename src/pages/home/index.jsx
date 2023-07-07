@@ -3,7 +3,8 @@ import TypedBlocks from "../../components/typed-blocks";
 import "pattern.css/dist/pattern.min.css";
 import "./style.css";
 import Typed from "typed.js";
-
+import { collection, getDocs } from "firebase/firestore";
+import {db} from "../../firebase/firebaseConfig";
 
 
   
@@ -77,30 +78,30 @@ const HomeGalleryItem = ({ src, alt, selected, ...rest }) => (
 
 function Achievements({}) {
 
+	const [achievements, setAchievements] = useState([]);
 	const [selected, setSelected] = useState(0);
-	
 
+	useEffect(() => {
+		const fetchAchievements = async () => {
+		  try {
+			const dataArray = [];
+			const querySnapshot = await getDocs(collection(db, "achievements"));
+			querySnapshot.forEach((doc) => {
+			  dataArray.push(doc.data());
+			});
+			setAchievements(dataArray);
+		  } catch (error) {
+			console.error('Error fetching achievements:', error);
+		  }
+		};
 	
-	const achievements = [
-		{
-			image: "https://i.imgur.com/v1Vo3um.png",
-			title: "Achievement 1",
-			description:
-				"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in dui mauris.",
-		},
-		{
-			image: "https://i.imgur.com/v1Vo3um.png",
-			title: "Achievement 2",
-			description:
-				"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Eget nunc, sed viverra tellus.",
-		},
-		{
-			image: "https://i.imgur.com/v1Vo3um.png",
-			title: "Achievement 3",
-			description:
-				"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Justo, eget nunc, sed viverra tellus.",
-		},
-	];
+		fetchAchievements();
+	  }, []);
+
+
+
+
+
 	return (
 		<section
 			id="home-achievements"
@@ -114,7 +115,7 @@ function Achievements({}) {
 					<HomeGalleryItem
 						key={index}
 						src={achievement.url}
-						alt={achievement.event_name}
+						alt={achievement.achievement_name}
 						selected={selected == index}
 						onMouseEnter={() => setSelected(index)}
 					/>
@@ -122,10 +123,10 @@ function Achievements({}) {
 			</div>
 			<div className="text-neutral-content">
 				<h3 className="text-lg font-medium text-center">
-					{achievements[selected].title}
+				{achievements[selected]?.achievement_name}
 				</h3>
 				<p className="text-center mt-3">
-					{achievements[selected].description}
+					{achievements[selected]?.details}
 				</p>
 			</div>
 		</section>
@@ -133,37 +134,34 @@ function Achievements({}) {
 }
 
 function UpcomingEvents({}) {
-	const [selected, setSelected] = useState(0); // [0, 1, 2
-	const events = [
-		{
-			title: "Event 1",
-			description:
-				"Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-			date: "12/12/2021",
-			image: "https://resources.finalsite.net/images/f_auto,q_auto/v1541010395/thehillorg/awi1phm4adlubuvhuhub/2018-Jade-Johnson-College-Seminar2.jpg",
-		},
-		{
-			title: "Event 2",
-			description:
-				"Lorem ipsum dolor sit amet. Eget nunc, sed viverra tellus.",
-			date: "12/12/2021",
-			image: "https://resources.finalsite.net/images/f_auto,q_auto/v1541010395/thehillorg/awi1phm4adlubuvhuhub/2018-Jade-Johnson-College-Seminar2.jpg",
-		},
-		{
-			title: "Event 3",
-			description:
-				"Lorem ipsum dolor sit amet. X justo, eget nunc, sed viverra tellus.",
-			date: "12/12/2021",
-			image: "https://resources.finalsite.net/images/f_auto,q_auto/v1541010395/thehillorg/awi1phm4adlubuvhuhub/2018-Jade-Johnson-College-Seminar2.jpg",
-		},
-		{
-			title: "Event 3",
-			description:
-				"Lorem ipsum dolor sit amet. X justo, eget nunc, sed viverra tellus.",
-			date: "12/12/2021",
-			image: "https://resources.finalsite.net/images/f_auto,q_auto/v1541010395/thehillorg/awi1phm4adlubuvhuhub/2018-Jade-Johnson-College-Seminar2.jpg",
-		},
-	];
+	
+
+
+	const [events, setEvents] = useState([]);
+	const [selected, setSelected] = useState(0);
+
+	useEffect(() => {
+		const fetchEvents = async () => {
+		  try {
+			const dataArray = [];
+			const querySnapshot = await getDocs(collection(db, "events"));
+			querySnapshot.forEach((doc) => {
+			  dataArray.push(doc.data());
+			});
+			setEvents(dataArray);
+		  } catch (error) {
+			console.error('Error fetching Events:', error);
+		  }
+		};
+	
+		fetchEvents();
+	  }, []);
+
+
+
+
+
+
 
 	return (
 		<section
@@ -171,13 +169,13 @@ function UpcomingEvents({}) {
 			className="relative flex flex-col items-center gap-8 p-16 bg-neutral"
 		>
 			<h1 className="text-4xl font-bold text-neutral-content text-center">
-				Upcoming Events
+				Club Events
 			</h1>
 			<div className="flex gap-8 flex-wrap justify-center">
 				{events.map((event, index) => (
 					<HomeGalleryItem
 						key={index}
-						src={event.image}
+						src={event.url}
 						alt={"upcoming-event-" + index}
 						selected={selected == index}
 						onMouseEnter={() => setSelected(index)}
@@ -186,26 +184,55 @@ function UpcomingEvents({}) {
 			</div>
 			<div className="text-neutral-content">
 				<h3 className="text-lg font-medium text-center">
-					{events[selected].title}
+					{events[selected]?.event_name}
 				</h3>
 				<p className="text-xs text-center">
-					Dt: {events[selected].date}
+					Dt: {events[selected]?.date}
 				</p>
-				<p className="text-center">{events[selected].description}</p>
+				
 			</div>
 		</section>
 	);
 }
 
 function Gallery({}){
-	const photos = [
-		'https://firebasestorage.googleapis.com/v0/b/iiec-website-2023.appspot.com/o/Gallery%2F1680506152347-web-screenshot-14-03-2023.jpg?alt=media&token=41436df8-67eb-46db-b406-468923ef7cb6',
-		'https://firebasestorage.googleapis.com/v0/b/iiec-website-2023.appspot.com/o/Gallery%2F1680506152347-web-screenshot-14-03-2023.jpg?alt=media&token=41436df8-67eb-46db-b406-468923ef7cb6',
-		'https://firebasestorage.googleapis.com/v0/b/iiec-website-2023.appspot.com/o/Gallery%2F1680506152347-web-screenshot-14-03-2023.jpg?alt=media&token=41436df8-67eb-46db-b406-468923ef7cb6',
-		'https://firebasestorage.googleapis.com/v0/b/iiec-website-2023.appspot.com/o/Events%2F1680604349133-Screenshot%202023-04-03%20235229.png?alt=media&token=0b3b6347-db68-40f7-a168-be11b44ac2eb',
-		'https://firebasestorage.googleapis.com/v0/b/iiec-website-2023.appspot.com/o/Events%2F1680604349133-Screenshot%202023-04-03%20235229.png?alt=media&token=0b3b6347-db68-40f7-a168-be11b44ac2eb',
+
+
+	const [gallery, setGallery] = useState([]);
+	
+
+	useEffect(() => {
+		const fetchGallery = async () => {
+		  try {
+			const dataArray = [];
+			const querySnapshot = await getDocs(collection(db, "gallery"));
+			querySnapshot.forEach((doc) => {
+			  dataArray.push(doc.data());
+			});
+			setGallery(dataArray);
+		  } catch (error) {
+			console.error('Error fetching Gallery Photos:', error);
+		  }
+		};
+	
+		fetchGallery();
+	  }, []);
+
+
+
+
+
+
+
+
+	// const photos = [
+	// 	'https://firebasestorage.googleapis.com/v0/b/iiec-website-2023.appspot.com/o/Gallery%2F1680506152347-web-screenshot-14-03-2023.jpg?alt=media&token=41436df8-67eb-46db-b406-468923ef7cb6',
+	// 	'https://firebasestorage.googleapis.com/v0/b/iiec-website-2023.appspot.com/o/Gallery%2F1680506152347-web-screenshot-14-03-2023.jpg?alt=media&token=41436df8-67eb-46db-b406-468923ef7cb6',
+	// 	'https://firebasestorage.googleapis.com/v0/b/iiec-website-2023.appspot.com/o/Gallery%2F1680506152347-web-screenshot-14-03-2023.jpg?alt=media&token=41436df8-67eb-46db-b406-468923ef7cb6',
+	// 	'https://firebasestorage.googleapis.com/v0/b/iiec-website-2023.appspot.com/o/Events%2F1680604349133-Screenshot%202023-04-03%20235229.png?alt=media&token=0b3b6347-db68-40f7-a168-be11b44ac2eb',
+	// 	'https://firebasestorage.googleapis.com/v0/b/iiec-website-2023.appspot.com/o/Events%2F1680604349133-Screenshot%202023-04-03%20235229.png?alt=media&token=0b3b6347-db68-40f7-a168-be11b44ac2eb',
 		
-	  ];
+	//   ];
 	  return (
 		<div  align="center">
 			<h1 className="text-4xl font-bold text-neutral-content text-center">
@@ -221,9 +248,9 @@ function Gallery({}){
 <div className="photo-gallery">
 
 
-{photos.map((photo, index) => (
+{gallery.map((photo, index) => (
   <div className="photo-wrapper" key={index}>
-	<img src={photo} alt={`Photo ${index}`} />
+	<img src={photo.url} alt={`Photo ${index}`} />
   </div>
 ))}
 </div>
@@ -233,6 +260,7 @@ function Gallery({}){
 }
 function Home({}) {
 	
+
 
 
 
