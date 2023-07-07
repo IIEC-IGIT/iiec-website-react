@@ -90,11 +90,11 @@ function Footer() {
 			<p className="absolute left-1/2 bottom-4 -translate-x-1/2 mt-3 text-sm text-center text-neutral-content">
 				Made with ❤️ by{" "}
 				<a
-					href="https://github.com/deathcrafter"
+					href="https://www.instagram.com/iiec_igit/"
 					target="__blank"
 					className="text-neutral-content hover:text-accent transition-colors"
 				>
-					deathcrafter
+					IIEC
 				</a>
 			</p>
 		</footer>
