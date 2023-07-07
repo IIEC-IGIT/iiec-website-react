@@ -5,7 +5,8 @@ import "./style.css";
 import Typed from "typed.js";
 import { collection, getDocs } from "firebase/firestore";
 import {db} from "../../firebase/firebaseConfig";
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faHammer,faLightbulb,faComments,faChalkboardUser } from '@fortawesome/free-solid-svg-icons'
 
   
   
@@ -76,6 +77,81 @@ const HomeGalleryItem = ({ src, alt, selected, ...rest }) => (
 	</div>
 );
 
+function WhatWeDo({}){
+
+
+
+
+	return(
+		<div  align="center">
+			<br/>
+			<div>
+			<h1 className="text-4xl font-bold text-neutral-content text-center">
+				What we Do
+			</h1>
+			<br></br>
+			<p  align="center" className="text-primary-content text-center text-lg max-w-prose" >
+			IIEC brings to its participants a host of events, ranging from immersive talks to exciting competitions!
+			</p>
+			<br></br>
+			<div className="horizontal-line"></div>
+			</div>
+			<br/>
+			<div className="what-we-do-section">
+				<div>
+				<FontAwesomeIcon className="icons" icon={faHammer} style={{color: "#ecda13",}} />
+			
+				<h1 className="text-4xl font-bold text-neutral-content text-center">
+				Hackathon
+			</h1>
+			<br/>
+			<p  align="center" className="text-primary-content text-center text-lg max-w-prose" >
+			IGIT's IIEC club presents an exhilarating hackathon, encouraging participants to collaborate, innovate, and solve challenges. Join us for skill growth, networking, and the chance to showcase your talents to industry professionals in a dynamic and competitive environment.
+				</p>
+				</div>
+
+				<div>
+				
+				<FontAwesomeIcon className="icons" icon={faComments} style={{color: "#ecda13",}} />
+				<h1 className="text-4xl font-bold text-neutral-content text-center">
+				Campus Hangouts
+			</h1>
+			<br/>
+			<p  align="center" className="text-primary-content text-center text-lg max-w-prose" >
+			Hangouts is special interactive session specifically targeting the campus students. The session is like an informal discussion between campus junta and entrepreneurship oracles of varied arenas. It involves discussions and brainstorming on entrepreneurship matters. Throughout the year multiple hangout sessions are organised.
+			</p>
+				</div>
+				<div>
+				<FontAwesomeIcon className="icons" icon={faChalkboardUser} style={{color: "#ecda13",}} />
+				
+				<h1 className="text-4xl font-bold text-neutral-content text-center">
+				Startup Mater Class
+			</h1>
+			<br/>
+			<p  align="center" className="text-primary-content text-center text-lg max-w-prose" >
+			The Startup Master Class offers a transformative experience for aspiring entrepreneurs. Gain insights, guidance, and practical knowledge from industry experts, enabling you to navigate the startup ecosystem with confidence and unlock your entrepreneurial potential.
+			</p>
+				</div>
+
+				<div>
+				
+				<FontAwesomeIcon className="icons" icon={faLightbulb} style={{color: "#ecda13",}} />
+				<h1 className="text-4xl font-bold text-neutral-content text-center">
+				Idea Competition
+			</h1>
+			<br/>
+			<p  align="center" className="text-primary-content text-center text-lg max-w-prose" >
+			The Idea Competition is an inspiring platform for innovators to showcase their groundbreaking ideas. Participate and receive valuable feedback, mentorship, and the opportunity to turn your ideas into reality. Join us and unleash your creative potential in a supportive and competitive environment.
+			</p>
+				</div>
+			</div>
+
+
+
+		</div>
+	)
+}
+
 function Achievements({}) {
 
 	const [achievements, setAchievements] = useState([]);
@@ -108,7 +184,7 @@ function Achievements({}) {
 			className="relative flex flex-col items-center gap-8 p-16"
 		>
 			<h1 className="text-4xl font-bold text-neutral-content text-center">
-				Recent Achievements
+				Recent News
 			</h1>
 			<div className="flex gap-8 flex-wrap justify-center">
 				{achievements.map((achievement, index) => (
@@ -189,9 +265,13 @@ function UpcomingEvents({}) {
 				<p className="text-xs text-center">
 					Dt: {events[selected]?.date}
 				</p>
-				
+		
 			</div>
+			<br></br>
+			<button className="border-button">All Events</button>
+			
 		</section>
+		
 	);
 }
 
@@ -218,23 +298,9 @@ function Gallery({}){
 		fetchGallery();
 	  }, []);
 
-
-
-
-
-
-
-
-	// const photos = [
-	// 	'https://firebasestorage.googleapis.com/v0/b/iiec-website-2023.appspot.com/o/Gallery%2F1680506152347-web-screenshot-14-03-2023.jpg?alt=media&token=41436df8-67eb-46db-b406-468923ef7cb6',
-	// 	'https://firebasestorage.googleapis.com/v0/b/iiec-website-2023.appspot.com/o/Gallery%2F1680506152347-web-screenshot-14-03-2023.jpg?alt=media&token=41436df8-67eb-46db-b406-468923ef7cb6',
-	// 	'https://firebasestorage.googleapis.com/v0/b/iiec-website-2023.appspot.com/o/Gallery%2F1680506152347-web-screenshot-14-03-2023.jpg?alt=media&token=41436df8-67eb-46db-b406-468923ef7cb6',
-	// 	'https://firebasestorage.googleapis.com/v0/b/iiec-website-2023.appspot.com/o/Events%2F1680604349133-Screenshot%202023-04-03%20235229.png?alt=media&token=0b3b6347-db68-40f7-a168-be11b44ac2eb',
-	// 	'https://firebasestorage.googleapis.com/v0/b/iiec-website-2023.appspot.com/o/Events%2F1680604349133-Screenshot%202023-04-03%20235229.png?alt=media&token=0b3b6347-db68-40f7-a168-be11b44ac2eb',
-		
-	//   ];
 	  return (
 		<div  align="center">
+			
 			<h1 className="text-4xl font-bold text-neutral-content text-center">
 				Gallery
 			</h1>
@@ -254,10 +320,16 @@ function Gallery({}){
   </div>
 ))}
 </div>
+
+<br></br>
+
 		</div>
 		
 	);
 }
+
+
+
 function Home({}) {
 	
 
@@ -299,9 +371,11 @@ function Home({}) {
 					temporibus quo, nemo consectetur?
 				</p>
 			</section>
+			<WhatWeDo/>
 			<Achievements />
 			<UpcomingEvents />
 			<Gallery/>
+			
 		</>
 		
 		

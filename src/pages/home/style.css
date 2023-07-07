@@ -38,4 +38,33 @@
   .photo-wrapper:hover::after {
     opacity: 1;
   }
+  .horizontal-line {
+    border-top: 1px solid white;
+    width: 150px;
+  }
+  .what-we-do-section {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content:space-evenly;
+  }
+  .icons{
+    width: 30%;
+    height: 30%;
+  }
+  .border-button:hover {
+    background-color: #ecda13;
+    border: 2px solid #ecda13;
+  }
+  .border-button{
+    width: 180px;
+    height:60px;
+    border: 2px solid white;
+    borderRadius: 5px;
+    backgroundColor: white;
+    color: white;
+    fontSize: 20px;
+    transition: background-color 0.3s;
+  }
+ 
   
+ 
