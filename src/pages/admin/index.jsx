@@ -215,7 +215,7 @@ function App() {
 	
 const options = ['Faculty Coordinator', 'Student Ambassador', 'Core Member'];
 
-const startYear = 2024;
+const startYear = 2023;
 const numberOfYears = 10;
 const years = [];
 

@@ -3,10 +3,10 @@ import TypedBlocks from "../../components/typed-blocks";
 import "pattern.css/dist/pattern.min.css";
 import "./style.css";
 import Typed from "typed.js";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, where, query } from "firebase/firestore";
 import {db} from "../../firebase/firebaseConfig";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faHammer,faLightbulb,faComments,faChalkboardUser } from '@fortawesome/free-solid-svg-icons'
+import { faLink,faHammer,faLightbulb,faComments,faChalkboardUser } from '@fortawesome/free-solid-svg-icons'
 
   
   
@@ -77,11 +77,26 @@ const HomeGalleryItem = ({ src, alt, selected, ...rest }) => (
 	</div>
 );
 
+const MembersItem = ({ src, name, role, linkedin, instlink, alt, selected, ...rest }) => (
+	
+	<div>
+		<div className="member-container" >
+		<img src={src} alt={alt} className="image" />
+		<a href={linkedin} target="_blank" rel="noopener noreferrer" className="linkedin-icon">
+		<FontAwesomeIcon className="icons" icon={faLink} style={{color: "#ecda13",}} />
+      </a>
+	</div>
+	<h3 className="text-2xl font-bold text-neutral-content text-center">
+	{name}
+	</h3>
+	<h3 className="text-primary-content text-center text-lg max-w-prose">
+	{role}
+	</h3>
+	</div>
+	
+);
+
 function WhatWeDo({}){
-
-
-
-
 	return(
 		<div  align="center">
 			<br/>
@@ -97,11 +112,12 @@ function WhatWeDo({}){
 			<div className="horizontal-line"></div>
 			</div>
 			<br/>
-			<div className="what-we-do-section">
-				<div>
+			<div className="what-we-do-section" >
+				
+				<div >
 				<FontAwesomeIcon className="icons" icon={faHammer} style={{color: "#ecda13",}} />
 			
-				<h1 className="text-4xl font-bold text-neutral-content text-center">
+				<h1 className="text-2xl font-bold text-neutral-content text-center">
 				Hackathon
 			</h1>
 			<br/>
@@ -110,10 +126,10 @@ function WhatWeDo({}){
 				</p>
 				</div>
 
-				<div>
+				<div >
 				
 				<FontAwesomeIcon className="icons" icon={faComments} style={{color: "#ecda13",}} />
-				<h1 className="text-4xl font-bold text-neutral-content text-center">
+				<h1 className="text-2xl font-bold text-neutral-content text-center">
 				Campus Hangouts
 			</h1>
 			<br/>
@@ -121,10 +137,13 @@ function WhatWeDo({}){
 			Hangouts is special interactive session specifically targeting the campus students. The session is like an informal discussion between campus junta and entrepreneurship oracles of varied arenas. It involves discussions and brainstorming on entrepreneurship matters. Throughout the year multiple hangout sessions are organised.
 			</p>
 				</div>
-				<div>
+				
+				
+
+				<div >
 				<FontAwesomeIcon className="icons" icon={faChalkboardUser} style={{color: "#ecda13",}} />
 				
-				<h1 className="text-4xl font-bold text-neutral-content text-center">
+				<h1 className="text-2xl font-bold text-neutral-content text-center">
 				Startup Mater Class
 			</h1>
 			<br/>
@@ -133,10 +152,10 @@ function WhatWeDo({}){
 			</p>
 				</div>
 
-				<div>
+				<div >
 				
 				<FontAwesomeIcon className="icons" icon={faLightbulb} style={{color: "#ecda13",}} />
-				<h1 className="text-4xl font-bold text-neutral-content text-center">
+				<h1 className="text-2xl font-bold text-neutral-content text-center">
 				Idea Competition
 			</h1>
 			<br/>
@@ -144,6 +163,7 @@ function WhatWeDo({}){
 			The Idea Competition is an inspiring platform for innovators to showcase their groundbreaking ideas. Participate and receive valuable feedback, mentorship, and the opportunity to turn your ideas into reality. Join us and unleash your creative potential in a supportive and competitive environment.
 			</p>
 				</div>
+			
 			</div>
 
 
@@ -232,12 +252,6 @@ function UpcomingEvents({}) {
 	
 		fetchEvents();
 	  }, []);
-
-
-
-
-
-
 
 	return (
 		<section
@@ -328,12 +342,101 @@ function Gallery({}){
 	);
 }
 
+function Team({}){
+
+	const [faculty, setFaculty] = useState([]);
+	const [ambassador, setAmbassador] = useState([]);
+
+
+	useEffect(() => {
+		const fetchMembers = async () => {
+		  try {
+			const dataArray1 = [];
+			const dataArray2 = [];
+			
+			const querySnapshot1 = await getDocs(query(collection(db, "team"), where("role", "==", "Faculty Coordinator")));
+			querySnapshot1.forEach((doc) => {
+				dataArray1.push(doc.data());
+			  });
+			  setFaculty(dataArray1);
+			const querySnapshot2 = await getDocs(query(collection(db, "team"), where("role", "==", "Student Ambassador")));
+			querySnapshot2.forEach((doc) => {
+				dataArray2.push(doc.data());
+			  });
+			  setAmbassador(dataArray2);
+			  console.log(ambassador);
+			
+		  } catch (error) {
+			console.error('Error fetching Events:', error);
+		  }
+		};
+	
+		fetchMembers();
+	  }, []);
+
+
+	return(
+			<div align="center">
+				<br></br>
+				<h1 className="text-4xl font-bold text-neutral-content text-center">
+				Team
+			</h1>
+			<br></br>
+			<p  align="center" className="text-primary-content text-center text-lg max-w-prose" >
+			Contact us for any queries, questions, or ideas.</p>
+			<br></br>
+			<div >
+			<div className="image-container">
+				 <div className="flex gap-8 flex-wrap justify-center">
+				{faculty.map((item, index) => (
+					<MembersItem
+						key={index}
+						src={item.img_url}
+						name={item.name}
+						role={item.role}
+						linkedin={item.linkedin_link}
+						instlink={item.insta_link}
+					/>
+				))}
+			
+			</div>
+			
+			
+    
+	</div>
+	<br>
+	</br>
+	<div className="image-container">
+				 <div className="flex gap-8 flex-wrap justify-center">
+				{ambassador.map((item, index) => (
+					<MembersItem
+						key={index}
+						src={item.img_url}
+						name={item.name}
+						role={item.role}
+						linkedin={item.linkedin_link}
+						instlink={item.insta_link}
+					/>
+				))}
+			
+			</div>
+			
+			
+    
+	</div>
+
+	
+
+			</div>
+				
+			<br></br>
+			<button className="border-button">All Members</button>
+			</div>
+	);
+}
 
 
 function Home({}) {
-	
-
-
 
 
 
@@ -375,7 +478,7 @@ function Home({}) {
 			<Achievements />
 			<UpcomingEvents />
 			<Gallery/>
-			
+			<Team/>
 		</>
 		
 		
