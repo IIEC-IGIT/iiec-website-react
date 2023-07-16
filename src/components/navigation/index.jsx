@@ -109,7 +109,7 @@ function Navigation() {
 						className="menu dropdown-content p-2 shadow bg-neutral-content text-neutral rounded-box w-52 mt-2"
 					>
 						<li className="hover:text-white">
-							<a href=""
+							<a 
 							>Home</a>
 						</li>
 						<li className="hover:text-white">

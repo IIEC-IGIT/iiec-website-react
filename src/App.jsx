@@ -12,6 +12,10 @@ function App() {
 			path: "/",
 			element: <HOME />,
 		},
+		{
+			path: "/Team",
+			element: <TEAM />,
+		},
 	]);
 	return (
 		<>

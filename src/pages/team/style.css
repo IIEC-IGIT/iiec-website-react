@@ -23,23 +23,30 @@
     padding: 10px;
     background-color: #ffffff00;
   }
-  
  
-   .border-button:hover {
+ 
+ 
+ 
+  .border-button:hover {
     background-color: #ecda13;
     border: 2px solid #ecda13;
   }
   
-  .border-button{
+  .border-button {
     width: 180px;
-    height:60px;
+    height: 60px;
     border: 2px solid white;
-    borderRadius: 5px;
-    backgroundColor: white;
+    
     color: white;
-    fontSize: 20px;
+    font-size: 20px;
     transition: background-color 0.3s;
-  } 
+  }
+  
+  .border-button.active {
+    background-color: #ecda13;
+    border-color: #ecda13;
+  }
+  
    .member-container {
     width: 220px;
     height: 280px;

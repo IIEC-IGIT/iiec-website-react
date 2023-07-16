@@ -3,12 +3,11 @@ import TypedBlocks from "../../components/typed-blocks";
 import "pattern.css/dist/pattern.min.css";
 import "./style.css";
 import Typed from "typed.js";
-import { collection, getDocs, where, query } from "firebase/firestore";
+import { collection, getDocs, where, query ,orderBy, limit} from "firebase/firestore";
 import {db} from "../../firebase/firebaseConfig";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLink,faHammer,faLightbulb,faComments,faChalkboardUser } from '@fortawesome/free-solid-svg-icons'
-
-  
+import { useNavigate } from 'react-router-dom';
   
 
 const StyledIIECText = forwardRef(({ children, className, ...rest }, ref) => {
@@ -77,24 +76,41 @@ const HomeGalleryItem = ({ src, alt, selected, ...rest }) => (
 	</div>
 );
 
-const MembersItem = ({ src, name, role, linkedin, instlink, alt, selected, ...rest }) => (
+const MembersItem = ({ src, name, role, linkedin, instlink, alt, selected, ...rest }) => {
+    const [isHovered, setIsHovered] = useState(false);
+
+    const handleMouseEnter = () => {
+      setIsHovered(true);
+    };
+  
+    const handleMouseLeave = () => {
+      setIsHovered(false);
+    };
+    return(
+        <div>
+        <div
+          className="member-container"
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+        >
+          <img src={src} alt={alt} className={isHovered ? "image" : ""} />
+          {isHovered && (
+            <a href={linkedin} target="_blank" rel="noopener noreferrer" className="linkedin-icon">
+              <FontAwesomeIcon className="icons" icon={faLink} style={{ color: "#ecda13" }} />
+            </a>
+          )}
+        </div>
+        <h3 className="text-2xl font-bold text-neutral-content text-center">
+          {name}
+        </h3>
+        <h3 className="text-primary-content text-center text-lg max-w-prose">
+          {role}
+        </h3>
+      </div>
+    );
+ 
 	
-	<div>
-		<div className="member-container" >
-		<img src={src} alt={alt} className="image" />
-		<a href={linkedin} target="_blank" rel="noopener noreferrer" className="linkedin-icon">
-		<FontAwesomeIcon className="icons" icon={faLink} style={{color: "#ecda13",}} />
-      </a>
-	</div>
-	<h3 className="text-2xl font-bold text-neutral-content text-center">
-	{name}
-	</h3>
-	<h3 className="text-primary-content text-center text-lg max-w-prose">
-	{role}
-	</h3>
-	</div>
-	
-);
+          };
 
 function WhatWeDo({}){
 	return(
@@ -181,10 +197,12 @@ function Achievements({}) {
 		const fetchAchievements = async () => {
 		  try {
 			const dataArray = [];
-			const querySnapshot = await getDocs(collection(db, "achievements"));
+			const q = query(collection(db, "achievements"), orderBy("date"), limit(3));
+    		const querySnapshot = await getDocs(q);
 			querySnapshot.forEach((doc) => {
 			  dataArray.push(doc.data());
 			});
+			dataArray.reverse();
 			setAchievements(dataArray);
 		  } catch (error) {
 			console.error('Error fetching achievements:', error);
@@ -231,19 +249,24 @@ function Achievements({}) {
 
 function UpcomingEvents({}) {
 	
-
-
 	const [events, setEvents] = useState([]);
 	const [selected, setSelected] = useState(0);
-
+	const navigate = useNavigate();
+	const gotoAllEvent = () => {
+	  
+	 // navigate('/Team');
+	};
 	useEffect(() => {
 		const fetchEvents = async () => {
 		  try {
 			const dataArray = [];
-			const querySnapshot = await getDocs(collection(db, "events"));
+			const q = query(collection(db, "events"), orderBy("date"), limit(3));
+    		const querySnapshot = await getDocs(q);
+		
 			querySnapshot.forEach((doc) => {
 			  dataArray.push(doc.data());
 			});
+			dataArray.reverse();
 			setEvents(dataArray);
 		  } catch (error) {
 			console.error('Error fetching Events:', error);
@@ -282,7 +305,7 @@ function UpcomingEvents({}) {
 		
 			</div>
 			<br></br>
-			<button className="border-button">All Events</button>
+			<button className="border-button" onClick={gotoAllEvent}>All Events</button>
 			
 		</section>
 		
@@ -346,8 +369,12 @@ function Team({}){
 
 	const [faculty, setFaculty] = useState([]);
 	const [ambassador, setAmbassador] = useState([]);
+	const navigate = useNavigate();
 
-
+	const gotoTeam = () => {
+	  
+	  navigate('/Team');
+	};
 	useEffect(() => {
 		const fetchMembers = async () => {
 		  try {
@@ -373,18 +400,18 @@ function Team({}){
 	
 		fetchMembers();
 	  }, []);
-
-
+	
 	return(
-			<div align="center">
-				<br></br>
+			<section id="home-upcoming-events"
+			className="relative flex flex-col items-center gap-8 p-16 bg-neutral">
+				
 				<h1 className="text-4xl font-bold text-neutral-content text-center">
 				Team
 			</h1>
-			<br></br>
+			
 			<p  align="center" className="text-primary-content text-center text-lg max-w-prose" >
 			Contact us for any queries, questions, or ideas.</p>
-			<br></br>
+			
 			<div >
 			<div className="image-container">
 				 <div className="flex gap-8 flex-wrap justify-center">
@@ -429,15 +456,18 @@ function Team({}){
 
 			</div>
 				
-			<br></br>
-			<button className="border-button">All Members</button>
-			</div>
+			
+			
+			<button className="border-button" onClick={gotoTeam}>All Members</button>
+			
+			</section>
 	);
 }
 
 
 function Home({}) {
 
+	
 
 
 	return (
@@ -479,6 +509,7 @@ function Home({}) {
 			<UpcomingEvents />
 			<Gallery/>
 			<Team/>
+			
 		</>
 		
 		
