@@ -3,9 +3,11 @@ function Footer() {
 		<footer className="relative p-16 flex flex-col justify-center items-center">
 			<div className="card bg-neutral-focus w-72 lg:w-[48rem]">
 				<div className="card-body">
+					
+
 					<div className="flex justify-around">
 						<a
-							href="#"
+							href="https://www.instagram.com/iiec_igit/"
 							target="__blank"
 							className="flex justify-center items-center w-16 h-16 rounded-full border-2 border-neutral-content text-neutral-content hover:bg-neutral-content hover:text-neutral-focus transition-colors"
 						>
@@ -47,7 +49,7 @@ function Footer() {
 							</svg>
 						</a>
 						<a
-							href="#"
+							href="https://www.instagram.com/iiec_igit/"
 							target="__blank"
 							className="flex justify-center items-center w-16 h-16 rounded-full border-2 border-neutral-content text-neutral-content hover:bg-neutral-content hover:text-neutral-focus transition-colors"
 						>
