@@ -3,6 +3,7 @@ import TypedBlocks from "../../components/typed-blocks";
 import "pattern.css/dist/pattern.min.css";
 import "./style.css";
 import Typed from "typed.js";
+
 import { collection, getDocs, where, query ,orderBy, limit} from "firebase/firestore";
 import {db} from "../../firebase/firebaseConfig";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
