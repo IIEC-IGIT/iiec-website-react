@@ -9,13 +9,14 @@
 
   .absolute-heading {
     position: absolute;
-    top: 25%;
+    top: 20%;
     left: 50%;
     transform: translate(-50%, -50%);
     font-size: 7dvi;
     color: #FFFFFF;
     font-weight: bold;
   }
+  
   .year-box {
     display: flex;
     justify-content: space-evenly;
@@ -86,3 +87,43 @@
   .image-container:hover .linkedin-icon {
     opacity: 1;
   }
+
+/* Media Queries for Responsiveness */
+
+/* For screens smaller than 640px */
+@media (max-width: 640px) {
+  .absolute-heading {
+    font-size: 30px; /* Adjust the font size for smaller screens */
+  }
+
+  .year-box {
+    flex-wrap: wrap; /* Allow the buttons to wrap on smaller screens */
+  }
+
+  .border-button {
+    margin-bottom: 2px; /* Add some space between buttons on smaller screens */
+  }
+
+  
+}
+
+/* For screens smaller than 768px */
+@media (max-width: 768px) {
+  .absolute-heading {
+    font-size: 25px; /* Further adjust the font size for smaller screens */
+  }
+}
+.year-box {
+  flex-wrap: wrap; /* Allow the buttons to wrap on smaller screens */
+}
+.border-button {
+  margin-bottom: 2px; /* Add some space between buttons on smaller screens */
+}
+/* For screens smaller than 1024px */
+@media (max-width: 1024px) {
+  .absolute-heading {
+    font-size: 30px; /* Adjust the font size for even smaller screens */
+  }
+
+  
+}

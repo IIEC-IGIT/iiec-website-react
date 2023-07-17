@@ -226,12 +226,12 @@ for (let i = 0; i < numberOfYears; i++) {
 	return (
 		
 		<div className="App"  >
+      
 		 <form onSubmit={saveEvent} className="event-form">
+    
 			<div  className="i">
-			<label htmlFor="head">Upload Event:</label>
-			<input
-          type="text"
-        />
+			<label  style={{ marginTop: '20px' }} htmlFor="head">Upload Event:</label>
+			
 			</div>
 		 <div>
         <label htmlFor="date">Date:</label>
