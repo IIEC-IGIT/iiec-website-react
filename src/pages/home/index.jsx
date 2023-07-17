@@ -465,7 +465,118 @@ function Team({}){
 	);
 }
 
+function EmailForm({}){
+	const [formData, setFormData] = useState({
+		name: '',
+		email: '',
+		subject: '',
+		message: '',
+	  });
+	
+	  const handleChange = (e) => {
+		const { name, value } = e.target;
+		setFormData((prevFormData) => ({
+		  ...prevFormData,
+		  [name]: value,
+		}));
+	  };
+	
+	  const handleSubmit = (e) => {
+		e.preventDefault();
+		// You can handle form submission here (e.g., send data to the server or perform some action)
+		console.log(formData);
+	  };
+	  const inputStyle = {
+		border: '2px solid white',
+		padding: '8px',
+		margin: '5px',
+		borderRadius: '5px',
+    	backgroundColor: 'neutral',
+	  };
+	
+	return (
+		<section id="home-upcoming-events"
+		className="relative flex flex-col items-center gap-8 p-16 bg-neutral" >
+				
+		  <div style={{ display: 'flex', flexDirection: 'row' ,margin: 10,}}>
+		  <div>
+      <h1 className="text-4xl font-bold text-neutral-content">
+        Contact Us
+      </h1>
+      
+      <p className="text-primary-content text-lg max-w-prose">
+        Share your idea or suggestion with us through your Email.If you have any Query then contact us through
+		Email - iiec_igit@gmail.com.
+      </p>
+    </div>
+		  <div className="flex gap-8 flex-wrap justify-center">
+		  <form onSubmit={handleSubmit} >
+			
+			<div >
+			  <label  className="text-primary-content text-center text-lg max-w-prose" htmlFor="name">Name:</label>
+			  <input 
+				type="text"
+				id="name"
+				name="name"
+				value={formData.name}
+				onChange={handleChange}
+				
+				required
+			  />
+			</div>
+	
+			<div>
+			<label  className="text-primary-content text-center text-lg max-w-prose" htmlFor="name">Email:</label>
+			  <input
+				type="email"
+				id="email"
+				name="email"
+				value={formData.email}
+				onChange={handleChange}
+				required
+			  />
+			</div>
+	
+			<div>
+			<label  className="text-primary-content text-center text-lg max-w-prose" htmlFor="name">Subject:</label>
+			  <input
+				type="text"
+				id="subject"
+				name="subject"
+				value={formData.subject}
+				onChange={handleChange}
+				required
+			  />
+			</div>
+	
+			<div>
+			<label  className="text-primary-content text-center text-lg max-w-prose" htmlFor="name">Message:</label>
+			  <textarea
+				id="message"
+				name="message"
+				value={formData.message}
+				onChange={handleChange}
+				required
+			  />
+			</div>
+	
+			<div>
+		
+			<button type="submit">Submit</button>
 
+			</div>
+		  </form>
+		  </div>
+
+
+
+		  </div>
+		 
+
+
+		</section>
+	  );
+}
 function Home({}) {
 
 	
@@ -510,7 +621,7 @@ function Home({}) {
 			<UpcomingEvents />
 			<Gallery/>
 			<Team/>
-			
+			<EmailForm></EmailForm>
 		</>
 		
 		

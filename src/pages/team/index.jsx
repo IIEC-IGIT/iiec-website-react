@@ -1,6 +1,6 @@
 import { useState,useEffect} from 'react';
 import "./style.css";
-import logo from '../../assets/group.jpg'
+import logo from '../../assets/group-iiec.jpg'
 import { collection, getDocs, query } from "firebase/firestore";
 import {db} from "../../firebase/firebaseConfig";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
