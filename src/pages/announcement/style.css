@@ -1,0 +1,48 @@
+
+  .card {
+   
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 20px;
+    border: 1.5px solid #ccc;
+    background-color: white;
+    color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width:90%;
+    margin: 10px auto;
+    
+    
+    
+  }
+  
+ 
+  
+  .download-button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+
+
+
+
+@media (max-width: 640px) {
+    .absolute-heading {
+      font-size: 30px; 
+}
+}
+@media (max-width: 768px) {
+    .absolute-heading {
+      font-size: 25px; 
+  }
+ 
+  }
+@media (max-width: 1024px) {
+    .absolute-heading {
+      font-size: 30px; 
+    }
+  }

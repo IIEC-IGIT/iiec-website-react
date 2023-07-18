@@ -113,6 +113,9 @@ function Navigation() {
 							>Home</a>
 						</li>
 						<li className="hover:text-white">
+							<a >Announcement</a>
+						</li>
+						<li className="hover:text-white">
 							<a >Events</a>
 						</li>
 						<li className="hover:text-white">

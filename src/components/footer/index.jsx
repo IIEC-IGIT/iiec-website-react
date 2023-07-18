@@ -1,3 +1,4 @@
+
 function Footer() {
 	return (
 		<footer className="relative p-16 flex flex-col justify-center items-center">

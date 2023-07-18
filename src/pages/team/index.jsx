@@ -123,7 +123,7 @@ function Team() {
     const buttons = ['2023','2024', '2025', '2026', '2027'];
     return(
         <div>
-            <div >
+            <div>
             <img src={logo}></img>
            <h3 className='absolute-heading'>
             IIEC Team
