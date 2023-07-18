@@ -111,13 +111,14 @@
 @media (max-width: 768px) {
   .absolute-heading {
     font-size: 25px; /* Further adjust the font size for smaller screens */
-  }
+  
 }
 .year-box {
   flex-wrap: wrap; /* Allow the buttons to wrap on smaller screens */
 }
 .border-button {
   margin-bottom: 2px; /* Add some space between buttons on smaller screens */
+}
 }
 /* For screens smaller than 1024px */
 @media (max-width: 1024px) {

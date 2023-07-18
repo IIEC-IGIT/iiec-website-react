@@ -33,6 +33,12 @@ function App() {
   const [insta_team, setInsta_team] = useState('');
   const [linkedin_team, setLinkedin_team] = useState('');
   const [progresspercent_team, setProgresspercent_team] = useState(0);
+  //for announcement
+  const [title_ann, setTitle_ann] = useState('');
+  const [desc_ann, setDesc_ann] = useState('');
+ // const [time_ann, setTime_ann] = useState('');
+  const [file_ann, setFile_ann] = useState('');
+  const [progresspercent_ann, setProgresspercent_ann] = useState(0);
 
   //events
 	const saveEvent = async (e) => {
@@ -212,6 +218,83 @@ function App() {
     );
  
 };
+  //Announcement
+const addAnnouncement = async (e) => {
+  e.preventDefault();
+  if(title_ann=="" ){
+    alert("Enter title.")
+    return;
+  }
+  if(desc_ann==""){
+    alert("Enter desc.");
+    return;
+  }
+  const now = new Date();
+  const day = String(now.getDate()).padStart(2, '0');
+  const month = String(now.getMonth() + 1).padStart(2, '0');
+  const year = String(now.getFullYear());
+  const hours = String(now.getHours()).padStart(2, '0');
+  const minutes = String(now.getMinutes()).padStart(2, '0');
+
+  const time_ann=`${day}-${month}-${year}-${hours}:${minutes}`;
+  if(file_ann.name!=undefined){
+    const currTime = new Date().toLocaleTimeString();
+    const storageRef = ref(storage, `announcement/${file_ann.name+"_"+currTime}`);
+    const uploadTask = uploadBytesResumable(storageRef, file_ann);
+    
+  
+    uploadTask.on("state_changed",
+      (snapshot) => {
+        const progress =
+          Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+          setProgresspercent_ann(progress);
+      },
+      (error) => {
+        alert(error);
+      },
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+         
+          const coll = collection(db, 'announcement');
+          addDoc(coll,{
+            title:title_ann,
+            desc:desc_ann,
+            time:time_ann,
+            file_url:downloadURL
+          }).then(response => {
+            alert("Notice added.");
+            setTitle_ann("");
+            setDesc_ann("");
+            setFile_ann("");
+            setProgresspercent_ann(0);
+            }).catch(error=>{
+              console.log(error.message)
+            });
+  
+        });
+      }
+    );
+  }else{
+    
+    const coll = collection(db, 'announcement');
+          addDoc(coll,{
+            title:title_ann,
+            desc:desc_ann,
+            time:time_ann,
+            file_url:""
+          }).then(response => {
+            alert("Notice added.");
+            setTitle_ann("");
+            setDesc_ann("");
+            setFile_ann("");
+            setProgresspercent_ann(0);
+            }).catch(error=>{
+              console.log(error.message)
+            });
+  }
+ 
+
+};
 	
 const options = ['Faculty Coordinator', 'Student Ambassador', 'Core Member'];
 
@@ -231,7 +314,6 @@ for (let i = 0; i < numberOfYears; i++) {
     
 			<div  className="i">
 			<label  style={{ marginTop: '20px' }} htmlFor="head">Upload Event:</label>
-			
 			</div>
 		 <div>
         <label htmlFor="date">Date:</label>
@@ -447,6 +529,43 @@ for (let i = 0; i < numberOfYears; i++) {
       <button type="submit">Submit</button>
       <div className='outerbar'>
           <div className='innerbar' style={{ width: `${progresspercent_team}%` }}>{progresspercent_team}%</div>
+        </div>
+    </form>
+
+    <form onSubmit={addAnnouncement} className="event-form">
+			<div  className="i">
+			<label htmlFor="head">Add Announcement:</label>
+			</div>
+      <div>
+        <label >Notice Title:</label>
+        <input
+          type="text"
+          value={title_ann}
+          onChange={(e) => setTitle_ann(e.target.value)}
+          required
+        />
+      </div>
+      <div>
+        <label >Notice Description:</label>
+        <input
+          type="text"
+          value={desc_ann}
+          onChange={(e) => setDesc_ann(e.target.value)}
+          required
+        />
+      </div>
+      <div>
+        <label>Notice File if any:</label>
+        <input
+          type="file"
+          onChange={(e) => setFile_ann(e.target.files[0])}
+          
+        />
+      </div>
+
+      <button type="submit">Submit</button>
+      <div className='outerbar'>
+          <div className='innerbar' style={{ width: `${progresspercent_ann}%` }}>{progresspercent_ann}%</div>
         </div>
     </form>
 		</div>
