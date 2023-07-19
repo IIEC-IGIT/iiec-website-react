@@ -13,12 +13,12 @@ const AnnouncementItem = ({ title, desc,date, downloadLink, ...rest }) => {
   };
     return(
         
-         <div className="card" >
-      <h2 className="text-1xl font-bold text-neutral-content " style={{ color:'black' }}>{title}</h2>
-      <p className="text-primary-content text-lg  text-black" style={{ fontSize: '12px', fontStyle: 'italic', color:'black' }}>
+      <div className="card">
+      <h2 className="text-1xl font-bold text-neutral-content" style={{ color: 'black' }}>{title}</h2>
+      <p className="text-primary-content text-lg text-black" style={{ fontSize: '12px', fontStyle: 'italic', color: 'black' }}>
         {date}
       </p>
-      <p className="text-primary-content text-lg " style={{ color:'black' }}>
+      <p className="text-primary-content text-lg" style={{ color: 'black' }}>
         {desc}
       </p>
       {downloadLink && (
@@ -27,6 +27,7 @@ const AnnouncementItem = ({ title, desc,date, downloadLink, ...rest }) => {
         </button>
       )}
     </div>
+    
        
        
       

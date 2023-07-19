@@ -1,0 +1,18 @@
+
+ 
+ 
+    
+  .image {
+    width: 100%;
+    height: auto;
+    transition: opacity 0.3s ease;
+    display: flex;
+  justify-content: center;
+  align-items: center;
+  }
+  
+  .image-container:hover .image {
+    opacity: 0.7;
+  }
+  
+  

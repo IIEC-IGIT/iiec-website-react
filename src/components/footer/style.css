@@ -1,0 +1,14 @@
+.card {
+    /* Existing styles for the card */
+    /* ... */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .card-body {
+    /* Existing styles for the card body */
+    /* ... */
+    text-align: center; /* Optionally, you can also center the text within the card body */
+  }
+  
