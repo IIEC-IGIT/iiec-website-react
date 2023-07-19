@@ -5,7 +5,8 @@ import { collection, getDocs, query } from "firebase/firestore";
 import {db} from "../../firebase/firebaseConfig";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLink } from '@fortawesome/free-solid-svg-icons'
-
+import linkedin_logo from '../../assets/linkedin.svg';
+import insta from '../../assets/instagram.svg';
 const MembersItem = ({ src, name, role, linkedin, instlink, alt, selected, ...rest }) => {
     const [isHovered, setIsHovered] = useState(false);
 
@@ -25,9 +26,16 @@ const MembersItem = ({ src, name, role, linkedin, instlink, alt, selected, ...re
         >
           <img src={src} alt={alt} className={isHovered ? "image" : ""} />
           {isHovered && (
-            <a href={linkedin} target="_blank" rel="noopener noreferrer" className="linkedin-icon">
-              <FontAwesomeIcon className="icons" icon={faLink} style={{ color: "#ecda13" }} />
-            </a>
+            <a href="#" target="_blank" rel="noopener noreferrer" className="linkedin-icon">
+            {/* <FontAwesomeIcon className="icons" icon={faLink} style={{ color: "#ecda13" }} /> */}
+     
+   <a href={instlink} target="_blank" rel="noopener noreferrer" class="icon-link">
+         <img src={insta} alt="Icon 1"></img>
+       </a>
+       <a href={linkedin} target="_blank" rel="noopener noreferrer"  class="icon-link">
+       <img src={linkedin_logo} alt="Icon 2" ></img>
+       </a>
+          </a>
           )}
         </div>
         <h3 className="text-2xl font-bold text-neutral-content text-center">

@@ -9,6 +9,8 @@ import {db} from "../../firebase/firebaseConfig";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLink,faHammer,faLightbulb,faComments,faChalkboardUser } from '@fortawesome/free-solid-svg-icons'
 import { useNavigate } from 'react-router-dom';
+import linkedin_logo from '../../assets/linkedin.svg';
+import insta from '../../assets/instagram.svg';
   
 
 const StyledIIECText = forwardRef(({ children, className, ...rest }, ref) => {
@@ -66,8 +68,9 @@ const IIECHero = () => {
 	);
 };
 
-const HomeGalleryItem = ({ src, alt, selected, ...rest }) => (
-	<div
+const HomeGalleryItem = ({ src, alt, selected,event_name,date, ...rest }) => (
+	<div>
+<div
 		className={`w-60 md:w-72 lg:w-80 aspect-square rounded-lg bg-neutral-focus ${
 			selected ? "border-4" : ""
 		} border-primary-content`}
@@ -75,6 +78,21 @@ const HomeGalleryItem = ({ src, alt, selected, ...rest }) => (
 	>
 		<img src={src} alt={alt} className="w-full h-full object-contain" />
 	</div>
+
+	{selected && (
+       <div className="text-neutral-content">
+	   <h3 className="text-lg font-medium text-center">
+		   {event_name}
+	   </h3>
+	   <p className="text-xs text-center">
+		   {date}
+	   </p>
+   
+   </div>
+      )}
+	
+	</div>
+	
 );
 
 const MembersItem = ({ src, name, role, linkedin, instlink, alt, selected, ...rest }) => {
@@ -96,9 +114,17 @@ const MembersItem = ({ src, name, role, linkedin, instlink, alt, selected, ...re
         >
           <img src={src} alt={alt} className={isHovered ? "image" : ""} />
           {isHovered && (
-            <a href={linkedin} target="_blank" rel="noopener noreferrer" className="linkedin-icon">
-              <FontAwesomeIcon className="icons" icon={faLink} style={{ color: "#ecda13" }} />
-            </a>
+             <a href="#" target="_blank" rel="noopener noreferrer" className="linkedin-icon">
+               {/* <FontAwesomeIcon className="icons" icon={faLink} style={{ color: "#ecda13" }} /> */}
+			  
+			<a href={instlink} target="_blank" rel="noopener noreferrer" class="icon-link">
+   				 <img src={insta} alt="Icon 1"></img>
+  				</a>
+  			  <a href={linkedin} target="_blank" rel="noopener noreferrer"  class="icon-link">
+    			<img src={linkedin_logo} alt="Icon 2" ></img>
+  			  </a>
+             </a>
+			
           )}
         </div>
         <h3 className="text-2xl font-bold text-neutral-content text-center">
@@ -161,7 +187,7 @@ function WhatWeDo({}){
 				<FontAwesomeIcon className="icons" icon={faChalkboardUser} style={{color: "#ecda13",}} />
 				
 				<h1 className="text-2xl font-bold text-neutral-content text-center">
-				Startup Mater Class
+				Startup Master Class
 			</h1>
 			<br/>
 			<p  align="center" className="text-primary-content text-center text-lg max-w-prose" >
@@ -233,17 +259,12 @@ function Achievements({}) {
 						alt={achievement.achievement_name}
 						selected={selected == index}
 						onMouseEnter={() => setSelected(index)}
+						event_name={achievement.achievement_name}
+						date={achievement.details}
 					/>
 				))}
 			</div>
-			<div className="text-neutral-content">
-				<h3 className="text-lg font-medium text-center">
-				{achievements[selected]?.achievement_name}
-				</h3>
-				<p className="text-center mt-3">
-					{achievements[selected]?.details}
-				</p>
-			</div>
+			
 		</section>
 	);
 }
@@ -255,7 +276,7 @@ function UpcomingEvents({}) {
 	const navigate = useNavigate();
 	const gotoAllEvent = () => {
 	  
-	 // navigate('/Team');
+	 navigate('/Events');
 	};
 	useEffect(() => {
 		const fetchEvents = async () => {
@@ -293,18 +314,12 @@ function UpcomingEvents({}) {
 						alt={"upcoming-event-" + index}
 						selected={selected == index}
 						onMouseEnter={() => setSelected(index)}
+						event_name={event.event_name}
+						date={event.date}
 					/>
 				))}
 			</div>
-			<div className="text-neutral-content">
-				<h3 className="text-lg font-medium text-center">
-					{events[selected]?.event_name}
-				</h3>
-				<p className="text-xs text-center">
-					Dt: {events[selected]?.date}
-				</p>
-		
-			</div>
+			
 			<br></br>
 			<button className="border-button" onClick={gotoAllEvent}>All Events</button>
 			
@@ -314,16 +329,22 @@ function UpcomingEvents({}) {
 }
 
 function Gallery({}){
-
+	const navigate = useNavigate();
+	const gotoGallery = () => {
+		
+		navigate('/Gallery');
+	  };
 
 	const [gallery, setGallery] = useState([]);
 	
-
+	
 	useEffect(() => {
 		const fetchGallery = async () => {
 		  try {
 			const dataArray = [];
-			const querySnapshot = await getDocs(collection(db, "gallery"));
+			const q = query(collection(db, "gallery"), limit(7));
+    		const querySnapshot = await getDocs(q);
+			
 			querySnapshot.forEach((doc) => {
 			  dataArray.push(doc.data());
 			});
@@ -335,15 +356,19 @@ function Gallery({}){
 	
 		fetchGallery();
 	  }, []);
-
+	  
 	  return (
+		<section
+		id="home-upcoming-events"
+		className="relative flex flex-col items-center gap-8 p-16 bg-neutral"
+	>
 		<div  align="center">
 			
 			<h1 className="text-4xl font-bold text-neutral-content text-center">
 				Gallery
 			</h1>
 			<br></br>
-			<p  align="center" className="text-primary-content text-center text-lg max-w-prose" >
+			<p  align="center" className="text-primary-content text-center text-lg max-w-prose">
 			IIEC brings to its participants a host of events, ranging from immersive talks to exciting competitions!
 			</p>
 			<br></br>
@@ -362,6 +387,8 @@ function Gallery({}){
 <br></br>
 
 		</div>
+		<button className="border-button" onClick={gotoGallery}>All Photos</button>
+		</section>
 		
 	);
 }
@@ -621,7 +648,7 @@ function Home({}) {
 			<UpcomingEvents />
 			<Gallery/>
 			<Team/>
-			<EmailForm></EmailForm>
+			{/* <EmailForm></EmailForm> */}
 		</>
 		
 		
