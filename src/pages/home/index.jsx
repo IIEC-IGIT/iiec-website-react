@@ -329,11 +329,11 @@ function UpcomingEvents({}) {
 }
 
 function Gallery({}){
-	const navigate = useNavigate();
-	const gotoGallery = () => {
+	// const navigate = useNavigate();
+	// const gotoGallery = () => {
 		
-		navigate('/Gallery');
-	  };
+	// 	navigate('/Gallery');
+	//   };
 
 	const [gallery, setGallery] = useState([]);
 	
@@ -358,10 +358,7 @@ function Gallery({}){
 	  }, []);
 	  
 	  return (
-		<section
-		id="home-upcoming-events"
-		className="relative flex flex-col items-center gap-8 p-16 bg-neutral"
-	>
+		
 		<div  align="center">
 			
 			<h1 className="text-4xl font-bold text-neutral-content text-center">
@@ -387,8 +384,7 @@ function Gallery({}){
 <br></br>
 
 		</div>
-		<button className="border-button" onClick={gotoGallery}>All Photos</button>
-		</section>
+		
 		
 	);
 }

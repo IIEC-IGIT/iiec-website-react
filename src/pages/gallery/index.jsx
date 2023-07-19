@@ -6,12 +6,10 @@ import "./style.css";
 import { collection, getDocs, query ,orderBy,limit} from "firebase/firestore";
 import {db} from "../../firebase/firebaseConfig";
 
-function Gallery_items({}){
+
+function Gallery() {
 	const navigate = useNavigate();
-	const gotoGallery = () => {
-		
-		navigate('/');
-	  };
+	
 
 	const [gallery, setGallery] = useState([]);
 	
@@ -35,32 +33,6 @@ function Gallery_items({}){
 		fetchGallery();
 	  }, []);
 	  
-	  return (
-		<section
-		id="home-upcoming-events"
-		className="relative flex flex-col items-center gap-8 p-16 bg-neutral"
-	>
-		<div  align="center">
-<div className="photo-gallery">
-
-
-{gallery.map((photo, index) => (
-  <div className="photo-wrapper" key={index}>
-	<img src={photo.url} alt={`Photo ${index}`} />
-  </div>
-))}
-</div>
-
-<br></br>
-
-		</div>
-		<button className="border-button" onClick={gotoGallery}>Home</button>
-		</section>
-		
-	);
-}
-function Gallery() {
-  
 
 
   
@@ -77,9 +49,20 @@ function Gallery() {
        <br></br>
        <br></br>
        
-            <div>
-           <Gallery_items></Gallery_items>
-            </div>
+	   <div  align="center">
+<div className="photo-gallery">
+
+
+{gallery.map((photo, index) => (
+  <div className="photo-wrapper" key={index}>
+	<img src={photo.url} alt={`Photo ${index}`} />
+  </div>
+))}
+</div>
+
+<br></br>
+
+		</div>
         </div>
     );
 	
