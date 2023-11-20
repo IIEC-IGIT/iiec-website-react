@@ -185,15 +185,7 @@ function HomeAbout() {
 			<SectionHeading heading="Who We Are" />
 			<RevealOnView>
 				<p className="text-primary-content text-center text-lg max-w-prose">
-					Idea, Innovation and Entrepreneurship Cell (IIEC) is a
-					student body of IGIT Sarang which aims to promote the
-					culture of innovation and entrepreneurship among the
-					students of the institute. The cell is a part of the
-					National Entrepreneurship Network (NEN) and is supported by
-					the Wadhwani Foundation. The cell is also supported by the
-					Entrepreneurship Development Institute of India (EDII),
-					Ahmedabad and the Department of Science and Technology
-					(DST), Government of India.
+				The Idea, Innovation, and Entrepreneurship Cell (IIEC) at IGIT Sarang is a dynamic student body dedicated to fostering a culture of innovation and entrepreneurship. Our mission is to inspire and empower students by providing a platform for ideation, nurturing innovative thinking, and cultivating entrepreneurial skills. Through a range of initiatives, workshops, and events, we aim to ignite the entrepreneurial spirit within the student community, encouraging them to transform ideas into impactful ventures. Join us in exploring the exciting world of innovation and entrepreneurship, where creativity meets enterprise, at IGIT Sarang's IIEC.
 					<br />
 					<br />
 					

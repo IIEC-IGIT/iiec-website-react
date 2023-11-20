@@ -7,6 +7,7 @@ import EventsPage from "@/pages/events";
 import GalleryPage from "@/pages/gallery";
 import HomePage from "@/pages/home";
 import MembersPage from "@/pages/members";
+import ContactsPage from "@/pages/contacts";
 import { useRoutes } from "react-router-dom";
 
 function App() {
@@ -35,6 +36,10 @@ function App() {
 			path: "team",
 			element: <MembersPage />,
 		},
+		// {
+		// 	path: "contact",
+		// 	element: <ContactsPage />,
+		// },
 	]);
 	return (
 		<>
