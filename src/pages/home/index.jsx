@@ -160,7 +160,7 @@ function IIECHero() {
 							variants={variants}
 							className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl"
 						>
-							& ENTREPRENUERSHIP CELL
+							& ENTREPRENEURSHIP CELL
 						</StyledIIECText>
 						<StyledIIECText
 							custom={2}
