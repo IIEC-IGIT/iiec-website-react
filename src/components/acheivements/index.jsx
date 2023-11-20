@@ -88,7 +88,7 @@ function Achievements({ number = Infinity }) {
 	}, []);
 
 	return (
-		<div className="flex flex-col md:flex-row gap-8">
+		<div className="flex gap-8 flex-wrap justify-center">
 			{achievements.map((achievement) => (
 				<AchievementsItem
 					key={achievement._id}

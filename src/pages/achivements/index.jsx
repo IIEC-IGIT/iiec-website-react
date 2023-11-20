@@ -15,7 +15,7 @@ export default function AchievementsPage() {
 					heading="Recent Achievements"
 					subheading="we did it, together"
 				/>
-				<Achievements number={3} />
+				<Achievements  />
 			</section>
 		</main>
 	);

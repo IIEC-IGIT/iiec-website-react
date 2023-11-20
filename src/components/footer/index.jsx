@@ -2,6 +2,16 @@ import { faXTwitter } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function Footer() {
+	const developers = [
+		{ id: 1, name: "Shaktijit",
+		 link: "https://deathcrafter.dev/",
+		photoUrl: "https://media.licdn.com/dms/image/C4D03AQGhGiAUnosY4w/profile-displayphoto-shrink_800_800/0/1606456681855?e=1706140800&v=beta&t=VkIo64X9cFA3iBs6tOpN74gQQ9xfrtUTmXKWwGhDUJc" },
+		{ id: 2, name: "Biswajit",
+		 link: "https://biswajit-sahu-portfolio.vercel.app/",
+		photoUrl: "https://lh3.googleusercontent.com/a/ACg8ocJjvebdC1g1iq4fhyKVuifnhfB6xeFbx6Yvtf5tB06iZSo=s96-c-rg-br100" },
+		
+		// Add more developers as needed
+	  ];
 	return (
 		<footer className="relative p-8 flex flex-col justify-center items-center mt-20">
 			<div className="card bg-neutral-focus w-72 lg:w-[48rem]">
@@ -77,18 +87,36 @@ function Footer() {
 					</p>
 				</div>
 			</div>
-			<p className="absolute left-1/2 bottom-10 -translate-x-1/2 mt-3 text-sm text-center text-neutral-content opacity-[0.001]">
+			 <p className="text-neutral-content hover:text-accent transition-colors justify-center">
 				Made with ❤️ by{" "}
 				<a
-					href="https://deathcrafter.dev"
+					href="https://www.instagram.com/iiec_igit/"
 					target="__blank"
 					className="text-neutral-content hover:text-accent transition-colors"
 				>
-					deathcrafter
+					IIEC
 				</a>
-			</p>
+			</p> 
+
+			<p className="text-neutral-content hover:text-accent transition-colors justify-center">Developers</p>
+			<div className="mt-3 flex gap-4 justify-around">
+			
+        {developers.map((developer) => (
+          <div key={developer.id} className="flex flex-col items-center">
+			 <a href={developer.link} target="__blank">
+            <img
+              src={developer.photoUrl}
+              alt={developer.name}
+              className="w-11 h-11 rounded-full mb-2"
+            />
+            {/* <p className="text-neutral-content hover:text-accent transition-colors justify-center">{developer.name}</p> */}
+			</a>
+          </div>
+        ))}
+      </div>
 		</footer>
 	);
 }
 
 export default Footer;
+
