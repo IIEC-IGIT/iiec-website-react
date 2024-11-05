@@ -8,7 +8,9 @@ import GalleryPage from "@/pages/gallery";
 import HomePage from "@/pages/home";
 import MembersPage from "@/pages/members";
 import ContactsPage from "@/pages/contacts";
-import { useRoutes } from "react-router-dom";
+import FormPage from "@/pages/FormPage";
+
+import { useRoutes } from "react-router-dom"
 
 function App() {
 	const router = useRoutes([
@@ -35,6 +37,10 @@ function App() {
 		{
 			path: "team",
 			element: <MembersPage />,
+		},
+		{
+			path: "form",
+			element: <FormPage />,
 		},
 		// {
 		// 	path: "contact",

@@ -178,6 +178,12 @@ function Navigation() {
 							</NavLink>
 						</li>
 						<li>
+							<NavLink to="/form" className={({ isActive }) => 
+								`${isActive ? "font-semibold" : ""}`}>
+								Mentorship Form
+							</NavLink>
+						</li>
+						<li>
 							<NavLink
 								to="/contact"
 								className={({ isActive }) =>
