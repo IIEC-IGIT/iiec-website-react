@@ -7,8 +7,10 @@ import EventsPage from "@/pages/events";
 import GalleryPage from "@/pages/gallery";
 import HomePage from "@/pages/home";
 import MembersPage from "@/pages/members";
+
 import ContactsPage from "@/pages/contacts";
-import FormPage from "@/pages/FormPage";
+import FormPage from './pages/mentorshipform/FormPage';
+
 
 import { useRoutes } from "react-router-dom"
 
@@ -42,6 +44,7 @@ function App() {
 			path: "form",
 			element: <FormPage />,
 		},
+		
 		// {
 		// 	path: "contact",
 		// 	element: <ContactsPage />,

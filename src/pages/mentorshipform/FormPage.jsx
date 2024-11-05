@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import Footer from './components/Footer';
-import Nav from './components/Nav';
+import Nav from "../../components/navigation";  // Adjusted path to locate Nav component correctly
+import Footer from "../../components/footer";
 
 const FormPage = () => {
   const [formData, setFormData] = useState({
