@@ -82,7 +82,7 @@ function Footer() {
 						</a>
 					</div>
 					<p className="mt-8 text-center text-neutral-content">
-						&copy; 2023 - Idea, Innovation & Entrepreneuership Cell,
+						&copy; 2024 - Idea, Innovation & Entrepreneuership Cell,
 						IGIT Sarang
 					</p>
 				</div>
