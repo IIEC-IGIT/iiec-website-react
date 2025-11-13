@@ -6,13 +6,13 @@ import Ambassadors from "./ambassadors";
 import logo from "../../assets/group-iiec.jpg";
 
 export default function MembersPage() {
-	const currentPassoutYear = new Date().getFullYear(); // e.g. 2025
-	const [selectedYear, setSelectedYear] = useState(currentPassoutYear);
+	// default is "all" so members show immediately
+	const [selectedYear, setSelectedYear] = useState("all");
 
-	// Passout years (values) — display will be "2020–24" etc
+	// Passout years (values). Display labels stay as "2020–24"
 	const passoutYears = [2025, 2024, 2023, 2022, 2021, 2020];
 
-	// helper to format label as "2020–24"
+	// Format text like "2020–24"
 	const formatBatchLabel = (passout) => {
 		const start = passout - 4;
 		const endShort = String(passout).slice(2);
@@ -28,13 +28,18 @@ export default function MembersPage() {
 			<Helmet title="Team • IIEC, IGIT Sarang" />
 			<div className="h-20"></div>
 
-			{/* Filter UI: shows "2020–24" but value is passout year */}
+			{/* YEAR FILTER */}
 			<div className="flex justify-center mb-6">
 				<select
 					className="border p-2 rounded text-black dark:text-white dark:bg-gray-800"
 					value={selectedYear}
-					onChange={(e) => setSelectedYear(Number(e.target.value))}
+					onChange={(e) => {
+						// keep numeric years as numbers, keep "all" as string
+						const val = e.target.value === "all" ? "all" : Number(e.target.value);
+						setSelectedYear(val);
+					}}
 				>
+					<option value="all">All batches</option>
 					{passoutYears.map((year) => (
 						<option key={year} value={year}>
 							{formatBatchLabel(year)}
@@ -56,6 +61,7 @@ export default function MembersPage() {
 					</div>
 				}
 			>
+				{/* Pass selectedYear to both components */}
 				<Ambassadors selectedYear={selectedYear} />
 				<CoreMembers selectedYear={selectedYear} />
 			</Suspense>
