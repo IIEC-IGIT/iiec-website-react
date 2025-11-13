@@ -1,40 +1,43 @@
-import React, { Suspense, useState } from "react";
+import { Suspense, useState } from "react";
 import { Helmet } from "react-helmet";
 import ReactLoading from "react-loading";
 import CoreMembers from "./core-members";
 import Ambassadors from "./ambassadors";
-import logo from '../../assets/group-iiec.jpg'
+import logo from "../../assets/group-iiec.jpg";
 
 export default function MembersPage() {
-	const [year, setYear] = useState("All");
+	const currentPassoutYear = new Date().getFullYear(); // default filter
+	const [selectedYear, setSelectedYear] = useState(currentPassoutYear);
 
-	// Replace or compute this list as needed. You can also compute years dynamically
-	// by scanning the members data inside Ambassadors/CoreMembers and providing a callback
-	// to populate this list.
-	const years = ["All", "2025", "2024", "2023"];
+	// Manually listed passout years (modify as needed)
+	const passoutYears = [2025, 2024, 2023, 2022, 2021, 2020];
+
+	// Format text like "2020–24"
+	const formatBatchLabel = (passout) => {
+		const start = passout - 4;
+		const endShort = String(passout).slice(2);
+		return `${start}–${endShort}`;
+	};
 
 	return (
 		<main>
 			<div>
-				<img src={logo} alt="IIEC group" />
+				<img src={logo} alt="IIEC Logo" />
 			</div>
-			<Helmet title="Team • IIEC, IGIT Sarang" />
-			<div id="nav-placeholder" className="h-20"></div>
 
-			{/* Year filter */}
-			<div className="mx-4 my-6 flex items-center gap-4">
-				<label htmlFor="year-filter" className="font-medium">
-					Filter by year:
-				</label>
+			<Helmet title="Team • IIEC, IGIT Sarang" />
+			<div className="h-20"></div>
+
+			{/* YEAR FILTER */}
+			<div className="flex justify-center mb-6">
 				<select
-					id="year-filter"
-					value={year}
-					onChange={(e) => setYear(e.target.value)}
-					className="border rounded px-3 py-1"
+					className="border p-2 rounded text-black dark:text-white dark:bg-gray-800"
+					value={selectedYear}
+					onChange={(e) => setSelectedYear(Number(e.target.value))}
 				>
-					{years.map((y) => (
-						<option key={y} value={y}>
-							{y}
+					{passoutYears.map((year) => (
+						<option key={year} value={year}>
+							{formatBatchLabel(year)}
 						</option>
 					))}
 				</select>
@@ -45,20 +48,17 @@ export default function MembersPage() {
 					<div className="flex flex-col gap-8 h-60 justify-center items-center">
 						<ReactLoading
 							type="spin"
-							className="text-neutral-content"
 							color="#6B7280"
 							height="3rem"
 							width="3rem"
 						/>
-						<p className="text-neutral-content text-lg font-bold opacity-75">
-							Loading
-						</p>
+						<p className="text-lg font-bold opacity-75">Loading</p>
 					</div>
 				}
 			>
-				{/* Pass the selected year as a prop. Child components should filter based on this prop. */}
-				<Ambassadors year={year} />
-				<CoreMembers year={year} />
+				{/* Pass selectedYear to both components */}
+				<Ambassadors selectedYear={selectedYear} />
+				<CoreMembers selectedYear={selectedYear} />
 			</Suspense>
 		</main>
 	);
