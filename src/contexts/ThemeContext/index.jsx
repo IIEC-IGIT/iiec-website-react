@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { themeChange } from "theme-change";
 
-const ThemeContext = createContext({ theme: "iiec_light", setTheme: () => {} });
+const ThemeContext = createContext({ theme: "iiec_light", setTheme: () => { } });
 
 export const useTheme = () => useContext(ThemeContext);
 
@@ -13,6 +13,7 @@ const ThemeProvider = ({ children }) => {
 		themeChange(false);
 	}, []);
 	useEffect(() => {
+		console.log("ThemeContext: theme changed to", theme);
 		localStorage.setItem("theme", theme);
 		document
 			.getElementsByTagName("html")[0]

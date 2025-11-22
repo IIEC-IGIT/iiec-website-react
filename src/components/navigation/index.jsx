@@ -2,13 +2,23 @@ import { NavLink } from "react-router-dom";
 import IIECLogo from "../../assets/iiec-logo.png";
 import { useTheme } from "../../contexts/ThemeContext";
 import { useMotionValueEvent, useScroll } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
-function BrandLogo() {
+const NAV_LINKS = [
+	{ to: "/announcements", label: "Announcements" },
+	{ to: "/achievements", label: "Achievements" },
+	{ to: "/events", label: "Events" },
+	{ to: "/gallery", label: "Gallery" },
+	{ to: "/team", label: "Team" },
+	{ to: "/form", label: "Mentorship Form" },
+	{ to: "/contact", label: "Contact" },
+];
+
+function BrandLogo({ colorClass }) {
 	return (
 		<NavLink to="/">
 			<div
-				className="h-12 w-12 bg-neutral-content"
+				className={`h-10 w-10 ${colorClass}`}
 				style={{
 					WebkitMaskImage: `url(${IIECLogo})`,
 					maskImage: `url(${IIECLogo})`,
@@ -24,11 +34,11 @@ function BrandLogo() {
 	);
 }
 
-function ThemeButton({}) {
+function ThemeButton({ colorClass }) {
 	const { theme, setTheme } = useTheme();
 	return (
 		<button
-			className="btn btn-ghost rounded-btn text-neutral-content"
+			className={`btn btn-ghost btn-sm btn-circle ${colorClass}`}
 			onClick={() =>
 				setTheme((th) =>
 					th === "iiec_light" ? "iiec_dark" : "iiec_light"
@@ -38,8 +48,8 @@ function ThemeButton({}) {
 			{theme === "iiec_light" ? (
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
-					width="40"
-					height="40"
+					width="20"
+					height="20"
 					viewBox="0 0 24 24"
 					fill="none"
 					stroke="currentColor"
@@ -61,8 +71,8 @@ function ThemeButton({}) {
 			) : (
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
-					width="40"
-					height="40"
+					width="20"
+					height="20"
 					viewBox="0 0 24 24"
 					fill="none"
 					stroke="currentColor"
@@ -81,6 +91,7 @@ function ThemeButton({}) {
 function Navigation() {
 	const { scrollY } = useScroll();
 	const [scrolled, setScrolled] = useState(false);
+	const { theme } = useTheme();
 
 	useMotionValueEvent(scrollY, "change", (latest) => {
 		if (scrollY.get() > 0) {
@@ -90,30 +101,64 @@ function Navigation() {
 		}
 	});
 
+	// Determine styles based on theme
+	const isDark = theme === "iiec_dark";
+
+	// Floating Glass Styles
+	// Always floating pill shape, centered
+	const containerClasses = `fixed top-4 left-1/2 -translate-x-1/2 w-[95%] max-w-7xl z-50 transition-all duration-300 rounded-2xl px-4 py-2 flex items-center justify-between`;
+
+	// Background & Border
+	// Dark: Black with low opacity + blur
+	// Light: White with low opacity + blur
+	const bgClasses = isDark
+		? "bg-black/40 border border-white/10 backdrop-blur-md shadow-lg"
+		: "bg-white/60 border border-black/5 backdrop-blur-md shadow-lg";
+
+	// Text/Icon Color
+	const textColorClass = isDark ? "text-white" : "text-black";
+	const logoColorClass = isDark ? "bg-white" : "bg-black";
+	const hoverClass = isDark ? "hover:bg-white/10" : "hover:bg-black/5";
+
 	return (
-		<nav
-			className={`fixed top-0 flex items-center justify-between w-full z-50 p-4 transition-all bg-opacity-0 ${
-				scrolled
-					? "bg-opacity-50 bg-neutral backdrop-blur-lg"
-					: "bg-transparent"
-			}`}
-		>
-			<BrandLogo />
-			<div className="flex gap-4">
-				<ThemeButton />
-				<div className="dropdown dropdown-end">
+		<nav className={`${containerClasses} ${bgClasses}`}>
+			{/* Left: Logo */}
+			<BrandLogo colorClass={logoColorClass} />
+
+			{/* Center: Desktop Links (Hidden on Mobile) */}
+			<div className="hidden lg:flex items-center gap-1">
+				{NAV_LINKS.map((link) => (
+					<NavLink
+						key={link.to}
+						to={link.to}
+						className={({ isActive }) =>
+							`px-4 py-2 rounded-full text-sm font-medium transition-all ${textColorClass} ${hoverClass} ${isActive ? "bg-opacity-20 font-bold" : "bg-opacity-0"
+							} ${isActive && isDark ? "bg-white/20" : ""} ${isActive && !isDark ? "bg-black/10" : ""}`
+						}
+					>
+						{link.label}
+					</NavLink>
+				))}
+			</div>
+
+			{/* Right: Theme Toggle & Mobile Menu */}
+			<div className="flex items-center gap-2">
+				<ThemeButton colorClass={textColorClass} />
+
+				{/* Mobile Menu Dropdown (Hidden on Desktop) */}
+				<div className="dropdown dropdown-end lg:hidden">
 					<label
 						tabIndex={0}
-						className="btn btn-ghost rounded-btn text-neutral-content"
+						className={`btn btn-ghost btn-sm btn-circle ${textColorClass}`}
 					>
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
-							width="44"
-							height="44"
+							width="24"
+							height="24"
 							viewBox="0 0 24 24"
 							fill="none"
 							stroke="currentColor"
-							strokeWidth="2.5"
+							strokeWidth="2"
 							strokeLinecap="round"
 							strokeLinejoin="round"
 							className="feather feather-menu"
@@ -125,74 +170,20 @@ function Navigation() {
 					</label>
 					<ul
 						tabIndex={0}
-						className="menu dropdown-content p-2 shadow bg-neutral-content text-neutral rounded-box w-52 mt-2"
+						className={`menu dropdown-content p-2 shadow-lg rounded-box w-52 mt-4 ${isDark ? "bg-base-200 text-white" : "bg-white text-black"}`}
 					>
-						<li>
-							<NavLink
-								to="/announcements"
-								className={({ isActive }) =>
-									`${isActive ? "font-semibold" : ""}`
-								}
-							>
-								Announcements
-							</NavLink>
-						</li>
-						<li>
-							<NavLink
-								to="/achievements"
-								className={({ isActive }) =>
-									`${isActive ? "font-semibold" : ""}`
-								}
-							>
-								Achievements
-							</NavLink>
-						</li>
-						<li>
-							<NavLink
-								to="/events"
-								className={({ isActive }) =>
-									`${isActive ? "font-semibold" : ""}`
-								}
-							>
-								Events
-							</NavLink>
-						</li>
-						<li>
-							<NavLink
-								to="/gallery"
-								className={({ isActive }) =>
-									`${isActive ? "font-semibold" : ""}`
-								}
-							>
-								Gallery
-							</NavLink>
-						</li>
-						<li>
-							<NavLink
-								to="/team"
-								className={({ isActive }) =>
-									`${isActive ? "font-semibold" : ""}`
-								}
-							>
-								Team
-							</NavLink>
-						</li>
-						<li>
-							<NavLink to="/form" className={({ isActive }) => 
-								`${isActive ? "font-semibold" : ""}`}>
-								Mentorship Form
-							</NavLink>
-						</li>
-						<li>
-							<NavLink
-								to="/contact"
-								className={({ isActive }) =>
-									`${isActive ? "font-semibold" : ""}`
-								}
-							>
-								Contact
-							</NavLink>
-						</li>
+						{NAV_LINKS.map((link) => (
+							<li key={link.to}>
+								<NavLink
+									to={link.to}
+									className={({ isActive }) =>
+										`${isActive ? "font-bold bg-base-300" : ""}`
+									}
+								>
+									{link.label}
+								</NavLink>
+							</li>
+						))}
 					</ul>
 				</div>
 			</div>

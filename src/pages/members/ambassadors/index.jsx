@@ -1,94 +1,8 @@
-import {
-	faGithub,
-	faInstagram,
-	faLinkedinIn,
-	faXTwitter,
-} from "@fortawesome/free-brands-svg-icons";
-import { faGlobe } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { motion } from "framer-motion";
+import { useState } from "react";
+import MemberCard from "../../../components/member-card";
+import MemberDetailModal from "../../../components/member-detail-modal";
+import ThemedHeading from "../../../components/themed-heading";
 import getMembers from "../../../actions/members/get";
-
-function SocialLinkButton({ link }) {
-	const icons = {
-		instagram: faInstagram,
-		github: faGithub,
-		linkedin: faLinkedinIn,
-		twitter: faXTwitter,
-		website: faGlobe,
-	};
-	return (
-		<a href={link.url} target="_blank" rel="noreferrer">
-			<FontAwesomeIcon
-				className="text-neutral-content hover:text-accent text-3xl"
-				icon={icons[link.name]}
-			/>
-		</a>
-	);
-}
-
-function Member({ member }) {
-	const variants = { unhovered: {}, hovered: {} };
-
-	return (
-		<motion.div
-			className="relative h-[21rem] w-[16rem] flex flex-col justify-center items-center gap-3"
-			variants={variants}
-			transition={{ type: "tween" }}
-			initial="unhovered"
-			whileHover="hovered"
-		>
-			<motion.div
-				className="absolute top-0 left-0 h-full w-full rounded-xl bg-primary"
-				variants={{ unhovered: { scale: 1 }, hovered: { scale: 1.05 } }}
-			/>
-			<motion.div className="absolute top-0 left-0 h-full w-full flex flex-col justify-between p-2">
-				<div className="flex justify-between">
-					<motion.div
-						className="rounded-tl-xl border-t-4 border-l-4 border-accent"
-						variants={{
-							unhovered: { width: "6rem", height: "3rem" },
-							hovered: { width: "3rem", height: "6rem" },
-						}}
-					/>
-				</div>
-				<div className="flex justify-between">
-					<motion.div
-						className="rounded-br-xl border-r-4 border-b-4 border-accent"
-						variants={{
-							unhovered: { width: "6rem", height: "3rem" },
-							hovered: { width: "3rem", height: "6rem" },
-						}}
-					/>
-				</div>
-			</motion.div>
-
-			<motion.div className="relative h-[10.5rem] aspect-square rounded-xl">
-				<motion.img
-					className="h-full w-full rounded-xl object-cover"
-					src={member.avatar}
-					alt={member.name}
-				/>
-				<motion.div
-					className="absolute top-0 left-0 h-full w-full rounded-xl flex justify-center items-center gap-4 backdrop-blur-md backdrop-brightness-75"
-					variants={{ unhovered: { opacity: 0 }, hovered: { opacity: 1 } }}
-				>
-					{(member.links || []).map((link) => (
-						<SocialLinkButton key={link.name} link={link} />
-					))}
-				</motion.div>
-			</motion.div>
-
-			<p className="text-center text-sm font-bold text-primary-content" title={member.name}>
-				{member.name}
-				<br />
-				<span className="text-xs font-medium">
-					{member.year - 4}-{member.year.toString().slice(2)}
-				</span>
-			</p>
-		</motion.div>
-	);
-}
 
 const resolveMembersData = () => {
 	let status = "pending";
@@ -115,34 +29,69 @@ const getMembersData = resolveMembersData();
 
 export default function Ambassadors({ selectedYear }) {
 	const membersData = getMembersData();
+	const [selectedMember, setSelectedMember] = useState(null);
+	const [isModalOpen, setIsModalOpen] = useState(false);
 
 	// safety if membersData or members missing
 	const allMembers = membersData?.members ?? [];
 
 	// If selectedYear === "all", don't filter by year
+	// selectedYear is passout year (e.g., 2026), database also stores passout year
+	// Convert database year to number for comparison (Firebase might store as string)
 	const filtered = selectedYear === "all"
 		? allMembers
-		: allMembers.filter((m) => m.year === selectedYear);
+		: allMembers.filter((m) => {
+			const memberYear = m.year || m.years; // Handle both field names
+			const memberYearNum = typeof memberYear === 'string' ? parseInt(memberYear, 10) : memberYear;
+			return memberYearNum === selectedYear;
+		});
+
+	console.log(`Ambassadors - Selected Year: ${selectedYear}, Total: ${allMembers.length}, Filtered: ${filtered.length}`);
+
+	const handleMemberClick = (member) => {
+		setSelectedMember(member);
+		setIsModalOpen(true);
+	};
+
+	const handleCloseModal = () => {
+		setIsModalOpen(false);
+		setTimeout(() => setSelectedMember(null), 300); // Clear after animation
+	};
 
 	// When no members, render a friendly message
 	if (!filtered.length) {
 		return (
 			<section id="ambassadors" className="mb-16">
-				<h2 className="text-3xl font-bold text-center mb-6">Ambassadors</h2>
-				<div className="text-center text-sm text-gray-600">No ambassadors found for the selected batch.</div>
+				<ThemedHeading level="h2" className="text-3xl font-bold text-center mb-6">Ambassadors</ThemedHeading>
+				<div className="text-center py-12">
+					<p className="text-base-content opacity-50 text-lg">No ambassadors found for the selected batch.</p>
+				</div>
 			</section>
 		);
 	}
 
 	return (
-		<section id="ambassadors" className="mb-16">
-			<h2 className="text-3xl font-bold text-center mb-6">Ambassadors</h2>
+		<>
+			<section id="ambassadors" className="mb-16">
+				<ThemedHeading level="h2" className="text-3xl font-bold text-center mb-6">Ambassadors</ThemedHeading>
 
-			<div className="flex flex-wrap justify-center gap-4 max-w-5xl mx-auto">
-				{filtered.map((member) => (
-					<Member key={member._id} member={member} />
-				))}
-			</div>
-		</section>
+				<div className="flex flex-wrap justify-center gap-4 max-w-5xl mx-auto">
+					{filtered.map((member) => (
+						<MemberCard
+							key={member._id}
+							member={member}
+							onClick={handleMemberClick}
+						/>
+					))}
+				</div>
+			</section>
+
+			{/* Member Detail Modal */}
+			<MemberDetailModal
+				member={selectedMember}
+				isOpen={isModalOpen}
+				onClose={handleCloseModal}
+			/>
+		</>
 	);
 }

@@ -20,53 +20,53 @@ import { Helmet } from "react-helmet";
 import { useNavigate } from 'react-router-dom';
 import linkedin_logo from '../../assets/linkedin.svg';
 import insta from '../../assets/instagram.svg';
-import { collection, getDocs, where, query ,orderBy, limit} from "firebase/firestore";
-import {db} from "../../firebase/firebaseConfig";
+import { collection, getDocs, where, query, orderBy, limit } from "firebase/firestore";
+import { db } from "../../firebase/firebaseConfig";
 import "./style.css";
 
 const MembersItem = ({ src, name, role, linkedin, instlink, alt, selected, ...rest }) => {
-    const [isHovered, setIsHovered] = useState(false);
+	const [isHovered, setIsHovered] = useState(false);
 
-    const handleMouseEnter = () => {
-      setIsHovered(true);
-    };
-  
-    const handleMouseLeave = () => {
-      setIsHovered(false);
-    };
-    return(
-        <div>
-        <div
-          className="member-container"
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
-        >
-          <img src={src} alt={alt} className={isHovered ? "image" : ""} />
-          {isHovered && (
-             <a href="#" target="_blank" rel="noopener noreferrer" className="linkedin-icon">
-               {/* <FontAwesomeIcon className="icons" icon={faLink} style={{ color: "#ecda13" }} /> */}
-			  
-			<a href={instlink} target="_blank" rel="noopener noreferrer" class="icon-link">
-   				 <img src={insta} alt="Icon 1"></img>
-  				</a>
-  			  <a href={linkedin} target="_blank" rel="noopener noreferrer"  class="icon-link">
-    			<img src={linkedin_logo} alt="Icon 2" ></img>
-  			  </a>
-             </a>
-			
-          )}
-        </div>
-        <h3 className="text-2xl font-bold text-neutral-content text-center">
-          {name}
-        </h3>
-        <h3 className="text-primary-content text-center text-lg max-w-prose">
-          {role}
-        </h3>
-      </div>
-    );
- 
-	
-          };
+	const handleMouseEnter = () => {
+		setIsHovered(true);
+	};
+
+	const handleMouseLeave = () => {
+		setIsHovered(false);
+	};
+	return (
+		<div>
+			<div
+				className="member-container"
+				onMouseEnter={handleMouseEnter}
+				onMouseLeave={handleMouseLeave}
+			>
+				<img src={src} alt={alt} className={isHovered ? "image" : ""} />
+				{isHovered && (
+					<a href="#" target="_blank" rel="noopener noreferrer" className="linkedin-icon">
+						{/* <FontAwesomeIcon className="icons" icon={faLink} style={{ color: "#ecda13" }} /> */}
+
+						<a href={instlink} target="_blank" rel="noopener noreferrer" class="icon-link">
+							<img src={insta} alt="Icon 1"></img>
+						</a>
+						<a href={linkedin} target="_blank" rel="noopener noreferrer" class="icon-link">
+							<img src={linkedin_logo} alt="Icon 2" ></img>
+						</a>
+					</a>
+
+				)}
+			</div>
+			<h3 className="text-2xl font-bold text-neutral-content text-center">
+				{name}
+			</h3>
+			<h3 className="text-primary-content text-center text-lg max-w-prose">
+				{role}
+			</h3>
+		</div>
+	);
+
+
+};
 
 const StyledIIECText = motion(
 	// eslint-disable-next-line react/display-name
@@ -185,10 +185,10 @@ function HomeAbout() {
 			<SectionHeading heading="Who We Are" />
 			<RevealOnView>
 				<p className="text-primary-content text-center text-lg max-w-prose">
-				The Idea, Innovation, and Entrepreneurship Cell (IIEC) at IGIT Sarang is a dynamic student body dedicated to fostering a culture of innovation and entrepreneurship. Our mission is to inspire and empower students by providing a platform for ideation, nurturing innovative thinking, and cultivating entrepreneurial skills. Through a range of initiatives, workshops, and events, we aim to ignite the entrepreneurial spirit within the student community, encouraging them to transform ideas into impactful ventures. Join us in exploring the exciting world of innovation and entrepreneurship, where creativity meets enterprise, at IGIT Sarang's IIEC.
+					The Idea, Innovation, and Entrepreneurship Cell (IIEC) at IGIT Sarang is a dynamic student body dedicated to fostering a culture of innovation and entrepreneurship. Our mission is to inspire and empower students by providing a platform for ideation, nurturing innovative thinking, and cultivating entrepreneurial skills. Through a range of initiatives, workshops, and events, we aim to ignite the entrepreneurial spirit within the student community, encouraging them to transform ideas into impactful ventures. Join us in exploring the exciting world of innovation and entrepreneurship, where creativity meets enterprise, at IGIT Sarang's IIEC.
 					<br />
 					<br />
-					
+
 				</p>
 			</RevealOnView>
 		</section>
@@ -317,101 +317,117 @@ function HomeGallery() {
 		</section>
 	);
 }
-function Team({}){
+function Team({ }) {
 
 	const [faculty, setFaculty] = useState([]);
-	const [ambassador, setAmbassador] = useState([]);
+	const [currentBatchMembers, setCurrentBatchMembers] = useState([]);
 	const navigate = useNavigate();
 
 	const gotoTeam = () => {
-	  
-	  navigate('/Team');
+
+		navigate('/Team');
 	};
+
+	const getCurrentBatch = () => {
+		const now = new Date();
+		const currentYear = now.getFullYear();
+		const currentMonth = now.getMonth(); // 0-11
+		// If July (6) or later, next batch (Year + 1). Else current year.
+		return currentMonth >= 6 ? currentYear + 1 : currentYear;
+	};
+
 	useEffect(() => {
 		const fetchMembers = async () => {
-		  try {
-			const dataArray1 = [];
-			const dataArray2 = [];
-			
-			const querySnapshot1 = await getDocs(query(collection(db, "members"), where("role", "==", "coordinater")));
-			querySnapshot1.forEach((doc) => {
-				dataArray1.push(doc.data());
-			  });
-			  setFaculty(dataArray1);
-			const querySnapshot2 = await getDocs(query(collection(db, "members"), where("role", "==", "ambassador")));
-			querySnapshot2.forEach((doc) => {
-				dataArray2.push(doc.data());
-			  });
-			  setAmbassador(dataArray2);
-			  console.log(ambassador);
-			
-		  } catch (error) {
-			console.error('Error fetching Events:', error);
-		  }
+			try {
+				const dataArray1 = [];
+				const dataArray2 = [];
+				const batchYear = getCurrentBatch();
+
+				const querySnapshot1 = await getDocs(query(collection(db, "members"), where("role", "==", "coordinater")));
+				querySnapshot1.forEach((doc) => {
+					dataArray1.push(doc.data());
+				});
+				setFaculty(dataArray1);
+
+				// Fetch members for the current batch year with role 'ambassador'
+				const querySnapshot2 = await getDocs(query(
+					collection(db, "members"),
+					where("year", "==", String(batchYear)),
+					where("role", "==", "ambassador")
+				));
+				querySnapshot2.forEach((doc) => {
+					dataArray2.push(doc.data());
+				});
+				setCurrentBatchMembers(dataArray2);
+				console.log("Current Batch Members:", dataArray2);
+
+			} catch (error) {
+				console.error('Error fetching Members:', error);
+			}
 		};
-	
+
 		fetchMembers();
-	  }, []);
-	
-	return(
-			<section id="home-upcoming-events"
+	}, []);
+
+	return (
+		<section id="home-upcoming-events"
 			className="relative flex flex-col items-center gap-8 p-16 bg-neutral">
-				
-				<SectionHeading heading="Team" subheading="For Any Query or Idea Contact us" />
-		
+
+			<SectionHeading heading="Team" subheading="For Any Query or Idea Contact us" />
+
 			<div >
-			<div className="image-container">
-				 <div className="flex gap-8 flex-wrap justify-center">
-				{faculty.map((item, index) => (
-					<MembersItem
-						key={index}
-						src={item.avatar}
-						name={item.name}
-						role={item.role}
-						//linkedin={item.links.url}
-						//instlink={item.iinks.url}
-						linkedin = {item['links'][0]['url']}
-						instlink = {item['links'][1]['url']}
-					/>
-				))}
-			
-			</div>
-			
-			
-    
-	</div>
-	<br>
-	</br>
-	<div className="image-container">
-				 <div className="flex gap-8 flex-wrap justify-center">
-				{ambassador.map((item, index) => (
-					<MembersItem
-						key={index}
-						src={item.avatar}
-						name={item.name}
-						role={item.role}
-						//linkedin={item.links.url}
-						//instlink={item.links.url}
-						linkedin = {item['links'][0]['url']}
-						instlink = {item['links'][1]['url']}
-					/>
-				))}
-			
-			</div>
-			
-			
-    
-	</div>
+				<div className="image-container">
+					<div className="flex gap-8 flex-wrap justify-center">
+						{faculty.map((item, index) => (
+							<MembersItem
+								key={index}
+								src={item.avatar}
+								name={item.name}
+								role={item.role}
+								//linkedin={item.links.url}
+								//instlink={item.iinks.url}
+								linkedin={item['links'][0]['url']}
+								instlink={item['links'][1]['url']}
+							/>
+						))}
 
-	
+					</div>
+
+
+
+				</div>
+				<br>
+				</br>
+				<div className="image-container">
+					<div className="flex gap-8 flex-wrap justify-center">
+						{currentBatchMembers.map((item, index) => (
+							<MembersItem
+								key={index}
+								src={item.avatar}
+								name={item.name}
+								role={item.role}
+								//linkedin={item.links.url}
+								//instlink={item.links.url}
+								linkedin={item['links'][0]['url']}
+								instlink={item['links'][1]['url']}
+							/>
+						))}
+
+					</div>
+
+
+
+				</div>
+
+
 
 			</div>
-				
-			
-			
+
+
+
 			<button className="border-button" onClick={gotoTeam}>All Members</button>
-			
-			</section>
+
+		</section>
 	);
 }
 function HomePage() {
@@ -424,7 +440,7 @@ function HomePage() {
 			<RecentAchievements />
 			<RecentEvents />
 			<HomeGallery />
-			<Team/>
+			<Team />
 		</>
 	);
 }
